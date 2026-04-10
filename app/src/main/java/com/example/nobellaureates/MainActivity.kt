@@ -7,7 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.example.nobellaureates.presentation.common.TokenManager
 import com.example.nobellaureates.presentation.navigation.NavGraph
 import com.example.nobellaureates.presentation.theme.NobellaureatesTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +25,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavGraph()
+                    val tokenManager = remember { TokenManager(applicationContext) }
+                    NavGraph(
+                        startDestination = if (tokenManager.isLoggedIn()) "list" else "login"
+                    )
                 }
             }
         }

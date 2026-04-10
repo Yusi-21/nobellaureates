@@ -15,6 +15,7 @@ class GetLaureatesUseCase @Inject constructor(
         return entities.map { entity ->
             Laureate(
                 id = entity.id,
+                prizeId = "${entity.awardYear}_${entity.category}",
                 fullName = entity.fullName,
                 motivation = entity.motivation,
                 portraitUrl = entity.portraitUrl,

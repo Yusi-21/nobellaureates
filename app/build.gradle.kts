@@ -68,7 +68,7 @@ dependencies {
     // Coil (для загрузки фото)
     implementation("io.coil-kt:coil-compose:2.6.0")
 
-    // DI - Koin (легкий и понятный)
+    // DI - Koin
     implementation("io.insert-koin:koin-androidx-compose:3.5.6")
     implementation("io.insert-koin:koin-core:3.5.6")
     implementation("io.insert-koin:koin-android:3.5.6")

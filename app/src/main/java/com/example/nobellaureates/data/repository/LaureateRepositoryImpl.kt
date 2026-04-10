@@ -13,31 +13,27 @@ class LaureateRepositoryImpl @Inject constructor(
         year: Int?,
         category: String?
     ): List<Laureate> {
-        val response = apiService.getNobelPrizes(
-            limit = 500,
+        val prizes = apiService.getNobelPrizes(
+            limit = 10,
             offset = 0,
             year = year,
             category = category
         )
 
-        return response.nobelPrizes.flatMap { prize ->
-            val awardYear = prize.awardYear ?: return@flatMap emptyList()
-            val categoryName = prize.category?.en ?: return@flatMap emptyList()
-
-            prize.laureates?.mapNotNull { laureate ->
-                val fullName = laureate.fullName?.en ?: return@mapNotNull null
-
+        return prizes.flatMap { prize ->
+            prize.laureates?.map { laureate ->
                 Laureate(
-                    id = laureate.id.ifEmpty { return@mapNotNull null },
-                    fullName = fullName,
-                    motivation = laureate.motivation?.en,
-                    portraitUrl = laureate.portraitUrl,
-                    birthCountry = laureate.birth?.country?.en,
-                    birthPlace = laureate.birth?.place?.city,
-                    awardYear = awardYear,
-                    category = categoryName,
-                    categoryFullName = prize.categoryFullName?.en,
-                    shortMotivation = laureate.motivation?.en?.take(100) ?: "No motivation provided"
+                    id = laureate.id,
+                    prizeId = "${prize.awardYear}_${prize.category}",
+                    fullName = laureate.fullName,
+                    motivation = laureate.motivation,
+                    portraitUrl = null,
+                    birthCountry = null,
+                    birthPlace = null,
+                    awardYear = prize.awardYear,
+                    category = prize.category,
+                    categoryFullName = prize.categoryFullName,
+                    shortMotivation = laureate.motivation?.take(100) ?: "No motivation provided"
                 )
             } ?: emptyList()
         }

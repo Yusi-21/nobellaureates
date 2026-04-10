@@ -4,6 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,6 +21,7 @@ import com.example.nobellaureates.presentation.common.years
 @Composable
 fun LaureateListScreen(
     navController: NavController,
+    onFavoritesClick: () -> Unit,
     viewModel: LaureateListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -28,7 +31,16 @@ fun LaureateListScreen(
     var expandedCategory by remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Нобелевские премии") }) }
+        topBar = {
+            TopAppBar(
+                title = { Text("Нобелевские премии") },
+                actions = {
+                    IconButton(onClick = onFavoritesClick) {
+                        Icon(Icons.Default.Favorite, contentDescription = "Избранное")
+                    }
+                }
+            )
+        }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -131,7 +143,7 @@ fun LaureateListScreen(
                             LaureateCard(
                                 laureate = laureate,
                                 onClick = {
-                                    navController.navigate("detail/${laureate.id}")
+                                    navController.navigate("detail/${laureate.prizeId}")
                                 }
                             )
                         }

@@ -2,6 +2,7 @@ package com.example.nobellaureates.domain.model
 
 data class Laureate(
     val id: String,
+    val prizeId: String,
     val fullName: String,
     val motivation: String?,
     val portraitUrl: String?,
